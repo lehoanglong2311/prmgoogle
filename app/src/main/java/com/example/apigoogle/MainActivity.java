@@ -38,7 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private Geocoder geocoder;
-    String address = "Hà Nội";
+    String address = "FPT University";
     private int type = GoogleMap.MAP_TYPE_NORMAL;
     private GoogleMap mMap;
     @Override
