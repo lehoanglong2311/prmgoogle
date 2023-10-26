@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.example.apigoogle.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
     private int type = GoogleMap.MAP_TYPE_NORMAL;
     private GoogleMap googleMap;
@@ -36,7 +40,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
         this.googleMap = googleMap;
+        LatLng hanoi = new LatLng(21.0285,105.8542);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hanoi,15);
+        googleMap.animateCamera(cameraUpdate);
         googleMap.setMapType(type);
     }
     private void showPopupMenu(View view) {
