@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item1"
+        android:title="Chế độ bình thường"
+        android:icon="@drawable/icons8_map_24"
+        />
+    <item
+        android:id="@+id/menu_item2"
+        android:title="Chế độ vệ tinh"
+        android:icon="@drawable/icons8_satellite_30"/>
+    <item
+        android:id="@+id/menu_item3"
+        android:title="Chế độ hỗn hợp" />
+    <item
+        android:id="@+id/menu_item4"
+        android:title="Chế độ địa hình"
+        android:icon="@drawable/icons8_longitude_30"/>
+</menu>

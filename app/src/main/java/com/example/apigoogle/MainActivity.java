@@ -13,6 +13,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import com.example.apigoogle.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,11 +33,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    private GoogleMap mMap;
     private Geocoder geocoder;
     String address = "Hà Nội";
+    private int type = GoogleMap.MAP_TYPE_NORMAL;
+    private GoogleMap mMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +48,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         geocoder = new Geocoder(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
+        TextView viewmap = findViewById(R.id.viewmap);
+        viewmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupMenu(view);
+            }
+        });
+
+
         if (getIntent().hasExtra("address")){
             address = getIntent().getStringExtra("address");
             Log.d("address",address);
@@ -78,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mMap.addMarker(markerOptions);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            mMap.setMapType(type);
         } else {
             // Xử lý trường hợp không tìm thấy địa chỉ
             Toast.makeText(this, "Không tìm thấy địa chỉ.", Toast.LENGTH_SHORT).show();
@@ -89,4 +112,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         searchLocation(address);
     }
+    private void showPopupMenu(View view) {
+        // tạo popmenu mới
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        // tạo một đối tượng MenuInflater và lấy đối tượng MenuInflater
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        // lấy dữ liệu từ file menu_main.xml và thêm vafp popupMenu
+        inflater.inflate(R.menu.menu_main, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Lấy ID của menu item được chọn
+                int id = item.getItemId();
+
+                // So sánh ID với các ID của các mục item mong muốn
+                if (id == R.id.menu_item1) {
+                    type = GoogleMap.MAP_TYPE_NORMAL;
+
+                } else if (id == R.id.menu_item2) {
+                    type = GoogleMap.MAP_TYPE_SATELLITE;
+
+                } else if (id == R.id.menu_item3) {
+                    type = GoogleMap.MAP_TYPE_HYBRID;
+
+                } else if (id == R.id.menu_item4) {
+                    type = GoogleMap.MAP_TYPE_TERRAIN;
+
+                }
+                if (mMap != null) {
+                    mMap.setMapType(type);
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+
 }
