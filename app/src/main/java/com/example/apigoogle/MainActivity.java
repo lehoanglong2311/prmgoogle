@@ -44,7 +44,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private Geocoder geocoder;
-    String address = "FPT University";
+    String address = "Hưng Yên";
     private int type = GoogleMap.MAP_TYPE_NORMAL;
     private GoogleMap mMap;
     @Override
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
             mMap.addMarker(markerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             mMap.setMapType(type);
         } else {
             // Xử lý trường hợp không tìm thấy địa chỉ
@@ -118,25 +118,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng hanoi = new LatLng(21.0285,105.8542);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hanoi,15);
-        mMap.animateCamera(cameraUpdate);
-        mMap.setMapType(type);
-
-        List<LatLng> path = new ArrayList<>();
-        path.add(new LatLng(21.0285, 105.8542)); // Điểm A
-        path.add(new LatLng(21.0357, 105.8475)); // Điểm B
-        // Thêm nhiều điểm khác tại đây
-
-        // Tạo đối tượng PolylineOptions và đặt thuộc tính
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.addAll(path);
-        polylineOptions.width(5f); // Độ rộng của đường line
-        polylineOptions.color(Color.RED); // Màu sắc của đường line
-
-        // Vẽ đường line trên bản đồ
-        Polyline polyline = mMap.addPolyline(polylineOptions);
         searchLocation(address);
+        findViewById(R.id.Zoom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng hanoi = new LatLng(21.0285,105.8542);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hanoi,15);
+                mMap.animateCamera(cameraUpdate);
+            }
+        });
+
+//
+
+        findViewById(R.id.showLine).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng hanoi = new LatLng(21.0285,105.8542);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hanoi,15);
+                mMap.animateCamera(cameraUpdate);
+                mMap.setMapType(type);
+
+                List<LatLng> path = new ArrayList<>();
+                path.add(new LatLng(21.0285, 105.8542)); // Điểm A
+                path.add(new LatLng(21.0357, 105.8475)); // Điểm B
+                // Thêm nhiều điểm khác tại đây
+
+                // Tạo đối tượng PolylineOptions và đặt thuộc tính
+                PolylineOptions polylineOptions = new PolylineOptions();
+                polylineOptions.addAll(path);
+                polylineOptions.width(5f); // Độ rộng của đường line
+                polylineOptions.color(Color.RED); // Màu sắc của đường line
+
+                // Vẽ đường line trên bản đồ
+                Polyline polyline = mMap.addPolyline(polylineOptions);
+            }
+        });
+
+
+
+
     }
     private void showPopupMenu(View view) {
         // tạo popmenu mới
