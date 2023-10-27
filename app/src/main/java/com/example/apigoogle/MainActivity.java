@@ -3,6 +3,7 @@ package com.example.apigoogle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
     private int type = GoogleMap.MAP_TYPE_NORMAL;
@@ -46,6 +52,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hanoi,15);
         googleMap.animateCamera(cameraUpdate);
         googleMap.setMapType(type);
+
+        List<LatLng> path = new ArrayList<>();
+        path.add(new LatLng(21.0285, 105.8542)); // Điểm A
+        path.add(new LatLng(21.0357, 105.8475)); // Điểm B
+        // Thêm nhiều điểm khác tại đây
+
+        // Tạo đối tượng PolylineOptions và đặt thuộc tính
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.addAll(path);
+        polylineOptions.width(5f); // Độ rộng của đường line
+        polylineOptions.color(Color.RED); // Màu sắc của đường line
+
+        // Vẽ đường line trên bản đồ
+        Polyline polyline = googleMap.addPolyline(polylineOptions);
     }
     private void showPopupMenu(View view) {
         // tạo popmenu mới
